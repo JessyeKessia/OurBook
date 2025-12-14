@@ -35,8 +35,72 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - Executar testes instrumentados (com dispositivo/emulador conectado): `./gradlew connectedAndroidTest`
 
 **Estrutura do projeto**
-- `app/` — módulo Android principal (código-fonte em `app/src/main/`)
-- Arquivos de configuração no root: `build.gradle.kts`, `settings.gradle.kts`, `gradle.properties`, `gradle/`
+```bash
+OurBook/
+├── app/
+│   └── src/
+│       └── main/
+│           ├── java/com/example/ourbook/
+│           │
+│           │   ├── model/
+│           │   │   ├── Book.kt
+│           │   │   ├── NotificationItem.kt
+│           │   │   ├── RewardItem.kt
+│           │   │   └── User.kt
+│           │   │
+│           │   ├── navigation/
+│           │   │   └── OurBookNav.kt
+│           │   │
+│           │   ├── ui/
+│           │   │   ├── screen/
+│           │   │   │   ├── login/
+│           │   │   │   │   ├── LoginScreen.kt
+│           │   │   │   │   └── LoginViewModel.kt
+│           │   │   │   │
+│           │   │   │   ├── home/
+│           │   │   │   │   ├── HomeScreen.kt
+│           │   │   │   │   └── HomeViewModel.kt
+│           │   │   │   │
+│           │   │   │   ├── bookdetail/
+│           │   │   │   │   ├── BookDetailScreen.kt
+│           │   │   │   │   └── BookDetailViewModel.kt
+│           │   │   │   │
+│           │   │   │   ├── rewards/
+│           │   │   │   │   ├── RewardsScreen.kt
+│           │   │   │   │   └── RewardsViewModel.kt
+│           │   │   │   │
+│           │   │   │   └── loan/
+│           │   │   │       ├── LoanScreen.kt
+│           │   │   │       └── LoanViewModel.kt
+│           │   │   │
+│           │   │   ├── components/
+│           │   │   │   ├── BookCard.kt
+│           │   │   │   ├── RewardCard.kt
+│           │   │   │   └── AppTopBar.kt
+│           │   │   │
+│           │   │   └── theme/
+│           │   │       ├── Color.kt
+│           │   │       ├── Shapes.kt
+│           │   │       ├── Theme.kt
+│           │   │       └── Type.kt
+│           │   │
+│           │   ├── repository/
+│           │   │   └── BookRepository.kt
+│           │   │
+│           │   ├── remote/
+│           │   │   └── FirebaseDataSource.kt
+│           │   │
+│           │   └── MainActivity.kt
+│           │
+│           └── res/
+│               ├── drawable/
+│               ├── mipmap/
+│               └── values/
+│
+├── build.gradle
+├── settings.gradle
+└── README.md
+```
 
 **Como desenvolver**
 - Abra o projeto no Android Studio
