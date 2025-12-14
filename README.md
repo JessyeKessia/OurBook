@@ -1,15 +1,20 @@
 # OurBook
 
-Aplicativo Android desenvolvido em Kotlin usando Jetpack Compose.
+![OurBook](app/src/main/java/com/example/ourbook/assets/ourbook.png)
+
+Aplicativo de biblioteca gameficado para aluguel de livros. O sistema permite consultar títulos disponíveis, realizar empréstimos e acompanhar prazos, oferecendo uma experiência simples e intuitiva ao usuário.
 
 
+**Tecnologias Utilizadas**
 
-**Recursos principais**
-- UI construída com Jetpack Compose
-- Navegação com Navigation Compose
-- `ViewModel` e arquitetura AndroidX
-- Material3 (componentes e temas)
-- Banco de dados FireBase
+<div> 
+  <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" /> 
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" /> 
+  <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white" /> 
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" /> 
+  <img src="https://img.shields.io/badge/Material%203-6750A4?style=for-the-badge&logo=materialdesign&logoColor=white" /> 
+</div>
+
 
 **Pré-requisitos**
 - JDK 11
