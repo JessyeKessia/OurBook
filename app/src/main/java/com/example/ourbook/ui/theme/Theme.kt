@@ -14,17 +14,24 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.example.ourbook.ui.theme.colorButtonLight
 
 private val DarkColorScheme = darkColorScheme(
-    primary = PrimaryColor,
-    secondary = PrimaryColor,
+    primary = primaryColor,
+    onPrimary = colorButtonDark,
+
+    secondaryContainer = secudaryColor,
+    onSecondaryContainer = colorButtonDark
+
 )
 
 private val LightColorScheme = lightColorScheme(
 
-    primary = SecondaryColor,
-    secondary = PrimaryColor,
-    onPrimary = SecondaryColor,
+    primary = primaryColor,
+    onPrimary = colorButtonLight,
+
+    secondaryContainer = secudaryColor,
+    onSecondaryContainer = colorButtonLight,
     /*
     surface = Color(0xFFFFFBFE),
     onPrimary = Color.White,
@@ -38,8 +45,7 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun OurBookTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

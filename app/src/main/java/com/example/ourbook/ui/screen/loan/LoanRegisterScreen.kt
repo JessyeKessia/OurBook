@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,6 +20,12 @@ fun LoanRegisterScreen(
     viewModel: LoanRegisterViewModel = viewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
+    val book by viewModel.book.collectAsState()
+
+    // Carregar o livro quando o Composable iniciar
+    LaunchedEffect(bookId) {
+        viewModel.loadBook(bookId)
+    }
 
     Scaffold(
         topBar = {
@@ -38,31 +45,19 @@ fun LoanRegisterScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            Text("Livro ID: $bookId")
-            Spacer(Modifier.height(16.dp))
+            if (book == null) {
+                Text("Carregando livro...")
+            } else {
+                Text("Livro: ${book!!.title}")
+                Spacer(Modifier.height(24.dp))
 
-            OutlinedTextField(
-                value = state.userName,
-                onValueChange = viewModel::onUserNameChange,
-                label = { Text("Nome do usuário") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(Modifier.height(12.dp))
-
-            OutlinedTextField(
-                value = state.dueDate,
-                onValueChange = viewModel::onDueDateChange,
-                label = { Text("Data de devolução (dd/mm/aaaa)") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(Modifier.height(24.dp))
-
-            Button(
-                onClick = { viewModel.confirmLoan(bookId) { onBack() } },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = state.isValid && !state.isLoading
-            ) {
-                Text(if (state.isLoading) "Salvando..." else "Confirmar Empréstimo")
+                Button(
+                    onClick = { viewModel.confirmLoan { onBack() } },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = book!!.isAvailable && !state.isLoading
+                ) {
+                    Text(if (state.isLoading) "Registrando..." else "Confirmar Empréstimo")
+                }
             }
 
             state.error?.let {
@@ -72,3 +67,4 @@ fun LoanRegisterScreen(
         }
     }
 }
+

@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,10 +24,11 @@ fun HomeScreen(
     onOpenBook: (String) -> Unit,
     onOpenNotifications: () -> Unit,
     onOpenRewards: () -> Unit,
+    onLogout: () -> Unit,
     viewModel: HomeViewModel = viewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
-    val books = viewModel.filteredBooks()
+    val books by viewModel.filteredBooks.collectAsState()
 
     Scaffold(
         topBar = {
@@ -41,8 +43,13 @@ fun HomeScreen(
                     IconButton(onClick = onOpenNotifications) {
                         Icon(Icons.Default.Notifications, contentDescription = "Notificações")
                     }
+                    // botão para sair
+                    IconButton(onClick = onLogout) {
+                        Icon(Icons.Default.Logout, contentDescription = "Sair")
+                    }
                 }
             )
+
         }
     ) { padding ->
         Column(
@@ -70,14 +77,14 @@ fun HomeScreen(
                     label = { Text("Todos") }
                 )
                 FilterChip(
-                    selected = state.filter == "Ativos",
-                    onClick = { viewModel.onFilterChange("Ativos") },
-                    label = { Text("Ativos") }
+                    selected = state.filter == "Disponíveis",
+                    onClick = { viewModel.onFilterChange("Disponíveis") },
+                    label = { Text("Disponíveis") }
                 )
                 FilterChip(
-                    selected = state.filter == "Concluídos",
-                    onClick = { viewModel.onFilterChange("Concluídos") },
-                    label = { Text("Concluídos") }
+                    selected = state.filter == "Emprestados",
+                    onClick = { viewModel.onFilterChange("Emprestados") },
+                    label = { Text("Emprestados") }
                 )
             }
 
@@ -85,10 +92,7 @@ fun HomeScreen(
 
             LazyColumn {
                 items(books) { book ->
-                    BookLoanCard(
-                        book = book,
-                        onClick = { onOpenBook(book.id) }
-                    )
+                    BookLoanCard(book = book, onClick = { onOpenBook(book.id) })
                     Spacer(Modifier.height(8.dp))
                 }
             }
@@ -106,7 +110,8 @@ fun BookLoanCard(book: Book, onClick: () -> Unit) {
             Text(book.title, fontWeight = FontWeight.Bold)
             Text(book.author, style = MaterialTheme.typography.bodyMedium)
             Spacer(Modifier.height(8.dp))
-            Text("Status: ${book.status}", style = MaterialTheme.typography.bodySmall)
+            // pega o texto se o livro está disponível ou nao
+            Text(text = if (book.isAvailable) "Disponível" else "Indisponível")
             book.dueDate?.let {
                 Text("Devolução: $it", style = MaterialTheme.typography.bodySmall)
             }

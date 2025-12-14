@@ -2,7 +2,8 @@ package com.example.ourbook.ui.screen.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ourbook.data.OurBookRepository
+// import com.example.ourbook.data.repository.OurBookRepository
+import com.example.ourbook.data.remote.OurBookRepositoryRemote
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +19,7 @@ data class LoginUiState(
 )
 
 class LoginViewModel(
-    private val repository: OurBookRepository = OurBookRepository()
+    private val repository: OurBookRepositoryRemote = OurBookRepositoryRemote
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -35,11 +36,27 @@ class LoginViewModel(
     fun login() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
+
             try {
-                val success = repository.login(_uiState.value.email, _uiState.value.password)
-                _uiState.update { it.copy(isLoading = false, isLoggedIn = success) }
+                val success = repository.login(
+                    email = _uiState.value.email,
+                    senha = _uiState.value.password
+                )
+
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        isLoggedIn = success,
+                        error = if (!success) "Email ou senha inválidos" else null
+                    )
+                }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, error = e.message) }
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = "Erro ao conectar com o servidor"
+                    )
+                }
             }
         }
     }

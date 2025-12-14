@@ -1,10 +1,17 @@
 package com.example.ourbook.data.model
 
+import com.google.firebase.firestore.DocumentId
+
 data class Book(
-    val id: String,
-    val title: String,
-    val author: String,
-    val status: String,      // "Emprestado", "Atrasado", "Devolvido", "Disponível"
-    val dueDate: String? = null,
-    val coverUrl: String? = null
-)
+    @DocumentId
+    var id: String = "",
+    var title: String = "",
+    var author: String = "",
+    var isAvailable: Boolean = true,
+    var dueDate: String? = null,
+    var coverUrl: String? = null
+) {
+    val availabilityText: String
+        get() = if (isAvailable) "Disponível" else "Indisponível"
+
+}

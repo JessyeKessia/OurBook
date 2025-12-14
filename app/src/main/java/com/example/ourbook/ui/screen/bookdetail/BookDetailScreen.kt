@@ -5,6 +5,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -17,7 +21,12 @@ fun BookDetailScreen(
     onRegisterLoan: () -> Unit,
     viewModel: BookDetailViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
-    val book = viewModel.getBook(bookId)
+    val book by viewModel.book.collectAsState()
+
+    LaunchedEffect(bookId) {
+        viewModel.loadBook(bookId)
+    }
+
 
     Scaffold(
         topBar = {
@@ -31,6 +40,19 @@ fun BookDetailScreen(
             )
         }
     ) { padding ->
+
+        if (book == null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+            return@Scaffold
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -38,17 +60,21 @@ fun BookDetailScreen(
                 .padding(16.dp)
         ) {
             Text(
-                text = book.title,
+                text = book!!.title,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
+
             Text(
-                text = book.author,
+                text = book!!.author,
                 style = MaterialTheme.typography.bodyMedium
             )
+
             Spacer(Modifier.height(16.dp))
-            Text("Status: ${book.status}")
-            book.dueDate?.let {
+
+            Text("Status: ${book!!.availabilityText}")
+
+            book!!.dueDate?.let {
                 Spacer(Modifier.height(4.dp))
                 Text("Devolução: $it")
             }
@@ -58,7 +84,7 @@ fun BookDetailScreen(
             Button(
                 onClick = onRegisterLoan,
                 modifier = Modifier.fillMaxWidth(),
-                enabled = book.status == "Disponível"
+                enabled = book!!.isAvailable
             ) {
                 Text("Registrar Empréstimo")
             }

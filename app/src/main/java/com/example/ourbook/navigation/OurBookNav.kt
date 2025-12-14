@@ -47,7 +47,10 @@ fun OurBookNavHost() {
             HomeScreen(
                 onOpenBook = { id -> navController.navigate(Screen.BookDetail.create(id)) },
                 onOpenNotifications = { navController.navigate(Screen.Notifications.route) },
-                onOpenRewards = { navController.navigate(Screen.Rewards.route) }
+                onOpenRewards = { navController.navigate(Screen.Rewards.route) },
+                onLogout = { navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.Home.route) { inclusive = true } }
+                }
             )
         }
         composable(
