@@ -1,4 +1,5 @@
-package com.example.ourbook.data.local
+package com.example.ourbook.data.model
+
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

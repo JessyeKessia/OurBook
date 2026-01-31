@@ -1,19 +1,16 @@
 package com.example.ourbook.ui.screen.loan
 
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ourbook.data.model.Book
-import com.example.ourbook.data.remote.OurBookRepositoryRemote
-// import com.example.ourbook.data.repository.OurBookRepository
+import com.example.ourbook.data.repository.OurBookRepositoryLocal
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import java.text.SimpleDateFormat
 
 data class LoanRegisterUiState(
     val userName: String = "",
@@ -25,10 +22,10 @@ data class LoanRegisterUiState(
 }
 
 class LoanRegisterViewModel(
-    private val repository: OurBookRepositoryRemote = OurBookRepositoryRemote
+    private val repository: OurBookRepositoryLocal // Injetado via Koin
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<LoanRegisterUiState>(LoanRegisterUiState())
+    private val _uiState = MutableStateFlow(LoanRegisterUiState())
     val uiState: StateFlow<LoanRegisterUiState> = _uiState.asStateFlow()
 
     private val _book = MutableStateFlow<Book?>(null)
@@ -36,6 +33,7 @@ class LoanRegisterViewModel(
 
     fun loadBook(bookId: String) {
         viewModelScope.launch {
+            // Agora busca no banco de dados local do seu celular
             val loadedBook = repository.getBookById(bookId)
             _book.value = loadedBook
         }
@@ -44,17 +42,18 @@ class LoanRegisterViewModel(
     fun confirmLoan(onSuccess: () -> Unit) {
         viewModelScope.launch {
             val currentBook = _book.value ?: return@launch
-            val dueDate = calculateDueDate() // 20 dias a partir de hoje
+            val dueDate = calculateDueDate()
 
+            // Registra o empréstimo no Room
             repository.registerLoan(currentBook.id, dueDate)
             onSuccess()
         }
     }
 
     private fun calculateDueDate(): String {
-        val calendar = java.util.Calendar.getInstance()
-        calendar.add(java.util.Calendar.DAY_OF_YEAR, 20)
-        val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, 20)
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return sdf.format(calendar.time)
     }
 }

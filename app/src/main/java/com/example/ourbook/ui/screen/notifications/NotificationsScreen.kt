@@ -4,11 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,15 +12,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ourbook.data.model.NotificationItem
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationsScreen(
     onBack: () -> Unit,
-    viewModel: NotificationsViewModel = viewModel()
+    viewModel: NotificationsViewModel = koinViewModel()
 ) {
+    // Coleta a lista de notificações do StateFlow
     val notifications by viewModel.notifications.collectAsState(initial = emptyList())
 
     Scaffold(
@@ -45,8 +42,8 @@ fun NotificationsScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            items(notifications) { n ->
-                NotificationCard(n)
+            items(notifications) { item ->
+                NotificationCard(notification = item)
                 Spacer(Modifier.height(8.dp))
             }
         }
@@ -62,9 +59,7 @@ fun NotificationCard(notification: NotificationItem) {
         else -> Icons.Filled.Notifications
     }
 
-    Card(
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    Card(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.Top

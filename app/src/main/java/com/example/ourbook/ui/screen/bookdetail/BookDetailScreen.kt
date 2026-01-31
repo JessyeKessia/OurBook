@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.ourbook.ui.screen.bookdetail.BookDetailViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -19,7 +21,7 @@ fun BookDetailScreen(
     bookId: String,
     onBack: () -> Unit,
     onRegisterLoan: () -> Unit,
-    viewModel: BookDetailViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: BookDetailViewModel = koinViewModel()
 ) {
     val book by viewModel.book.collectAsState()
 

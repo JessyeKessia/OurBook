@@ -1,6 +1,7 @@
 package com.example.ourbook.ui.screen.rewards
 
 import androidx.compose.foundation.layout.*
+import org.koin.androidx.compose.koinViewModel
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -11,15 +12,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ourbook.data.model.RewardItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RewardsScreen(
     onBack: () -> Unit,
-    viewModel: RewardsViewModel = viewModel()
+    viewModel: RewardsViewModel = koinViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -41,10 +42,7 @@ fun RewardsScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            Text(
-                text = "Suas moedas: ${state.coins}",
-                fontWeight = FontWeight.Bold
-            )
+            Text(text = "Suas moedas: ${state.coins}", fontWeight = Bold)
             Spacer(Modifier.height(16.dp))
 
             LazyColumn {
@@ -52,7 +50,7 @@ fun RewardsScreen(
                     RewardCard(
                         reward = reward,
                         canRedeem = state.coins >= reward.costCoins,
-                        onRedeem = { viewModel.redeem(reward.id) }
+                        onRedeem = { viewModel.redeem(reward.id,reward.costCoins) }
                     )
                     Spacer(Modifier.height(8.dp))
                 }
@@ -71,7 +69,7 @@ fun RewardCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(Modifier.padding(16.dp)) {
-            Text(reward.title, fontWeight = FontWeight.Bold)
+            Text(reward.title, fontWeight = Bold)
             Text(reward.description, style = MaterialTheme.typography.bodyMedium)
             Spacer(Modifier.height(8.dp))
             Row(

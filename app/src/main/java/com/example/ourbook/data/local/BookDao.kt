@@ -7,7 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-
+import com.example.ourbook.data.model.Book
 
 @Dao //
 interface BookDao {
@@ -17,6 +17,6 @@ interface BookDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE) //
     suspend fun insertBooks(books: List<Book>)
 
-    @Update
-    suspend fun updateBook(book: Book)
+    @Query("UPDATE books SET isAvailable = :available WHERE id = :bookId")
+    suspend fun updateAvailability(bookId: String, available: Boolean)
 }

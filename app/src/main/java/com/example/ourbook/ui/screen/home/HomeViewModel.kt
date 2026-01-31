@@ -11,7 +11,7 @@ class HomeViewModel(
     private val repository: OurBookRepositoryLocal // Agora recebe apenas o repositório local
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Success()) // Inicia em Success para o combine funcionar
+    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Success(books = emptyList())) // Inicia em Success para o combine funcionar
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     val filteredBooks: StateFlow<List<Book>> =

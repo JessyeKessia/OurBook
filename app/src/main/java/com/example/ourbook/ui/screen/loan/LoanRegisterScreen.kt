@@ -10,14 +10,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoanRegisterScreen(
     bookId: String,
     onBack: () -> Unit,
-    viewModel: LoanRegisterViewModel = viewModel()
+    viewModel: LoanRegisterViewModel = koinViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
     val book by viewModel.book.collectAsState()

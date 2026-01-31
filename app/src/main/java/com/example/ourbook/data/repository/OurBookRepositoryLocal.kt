@@ -4,7 +4,7 @@ import com.example.ourbook.data.model.Book
 import com.example.ourbook.data.local.BookDao
 import com.example.ourbook.data.local.NotificationDao
 import com.example.ourbook.data.local.RewardDao
-import com.example.ourbook.data.local.RewardItem
+import com.example.ourbook.data.model.RewardItem
 import com.example.ourbook.data.local.UserDao
 import com.example.ourbook.data.local.UserEntity
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.Flow
+import com.example.ourbook.data.model.NotificationItem
 
 
 class OurBookRepositoryLocal(
@@ -50,12 +51,17 @@ class OurBookRepositoryLocal(
     }
 
     suspend fun registerLoan(bookId: String, dueDate: String) {
-        // Lógica local para atualizar o livro no banco
+        bookDao.updateAvailability(bookId, false)
     }
 
     // ================= REWARDS (Agora lendo do SQLite) =================
     suspend fun getRewards(): List<RewardItem> {
         return rewardDao.getAllRewards().first()
+    }
+
+    suspend fun getNotifications(): List<NotificationItem> {
+        // Como o DAO retorna um Flow, .first() para pegar a lista atual
+        return notificationDao.getAllNotifications().first()
     }
 
     suspend fun redeemReward(rewardId: String, cost: Int) {
