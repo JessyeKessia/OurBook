@@ -5,13 +5,15 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "books")
 data class Book(
-    @PrimaryKey // O Room agora assume o controle total aqui
-    var id: String = "",
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
     var title: String = "",
     var author: String = "",
     var isAvailable: Boolean = true,
     var dueDate: String? = null,
-    var coverUrl: String? = null
+    var coverUrl: String? = null,
+
+    val loanUserId: Long? = null,
 ) {
     val availabilityText: String
         get() = if (isAvailable) "Disponível" else "Indisponível"

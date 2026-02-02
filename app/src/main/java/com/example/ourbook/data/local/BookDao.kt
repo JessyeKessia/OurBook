@@ -1,7 +1,5 @@
 package com.example.ourbook.data.local
 
-import com.example.ourbook.data.model.*
-import androidx.room.*
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -17,6 +15,20 @@ interface BookDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE) //
     suspend fun insertBooks(books: List<Book>)
 
-    @Query("UPDATE books SET isAvailable = :available WHERE id = :bookId")
-    suspend fun updateAvailability(bookId: String, available: Boolean)
+    @Query("""
+    UPDATE books 
+    SET isAvailable = :available,
+        loanUserId = :loanUserId,
+        dueDate = :dueDate
+    WHERE id = :bookId""")
+    suspend fun updateLoan(
+        bookId: Long,
+        available: Boolean,
+        loanUserId: Long?,
+        dueDate: String?
+    )
+
+    @Query("""
+    SELECT * FROM books WHERE isAvailable = 0 AND loanUserId = :userId """)
+    suspend fun getLoansByUser(userId: Long): List<Book>
 }

@@ -51,7 +51,7 @@ class RewardsViewModel(
         }
     }
 
-    fun redeem(rewardId: String, cost: Int) {
+    fun redeem(rewardId: Long, cost: Int) {
         viewModelScope.launch {
             try {
                 repository.redeemReward(rewardId, cost) // Executa a lógica no banco local

@@ -31,7 +31,7 @@ class LoanRegisterViewModel(
     private val _book = MutableStateFlow<Book?>(null)
     val book: StateFlow<Book?> = _book.asStateFlow()
 
-    fun loadBook(bookId: String) {
+    fun loadBook(bookId: Long) {
         viewModelScope.launch {
             // Agora busca no banco de dados local do seu celular
             val loadedBook = repository.getBookById(bookId)

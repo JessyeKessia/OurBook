@@ -15,7 +15,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoanRegisterScreen(
-    bookId: String,
+    bookId: Long,
     onBack: () -> Unit,
     viewModel: LoanRegisterViewModel = koinViewModel()
 ) {

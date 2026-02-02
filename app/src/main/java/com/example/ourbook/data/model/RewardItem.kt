@@ -9,8 +9,8 @@ import com.google.firebase.firestore.DocumentId
 
 data class RewardItem(
 
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
     val title: String,
     val description: String,
     val costCoins: Int = 0,

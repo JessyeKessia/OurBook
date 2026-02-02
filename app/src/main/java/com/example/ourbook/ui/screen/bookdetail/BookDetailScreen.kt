@@ -18,7 +18,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookDetailScreen(
-    bookId: String,
+    bookId: Long,
     onBack: () -> Unit,
     onRegisterLoan: () -> Unit,
     viewModel: BookDetailViewModel = koinViewModel()

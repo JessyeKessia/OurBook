@@ -27,9 +27,9 @@ class RepositorioSeed(
     // ================= BOOKS =================
     suspend fun seedBooks() {
         val books = listOf(
-            Book(id = "1", title = "O Pequeno Príncipe", author = "Antoine de Saint-Exupéry"),
-            Book(id = "2", title = "1984", author = "George Orwell"),
-            Book(id = "3", title = "Dom Casmurro", author = "Machado de Assis")
+            Book(id = 13444, title = "O Pequeno Príncipe", author = "Antoine de Saint-Exupéry"),
+            Book(id = 344343, title = "1984", author = "George Orwell"),
+            Book(id = 6454545, title = "Dom Casmurro", author = "Machado de Assis")
         )
         bookDao.insertBooks(books) // Salva no SQLite
     }
@@ -37,8 +37,8 @@ class RepositorioSeed(
     // ================= REWARDS =================
     suspend fun seedRewards() {
         val rewards = listOf(
-            RewardItem(id = "1", title = "Desconto em multa", description = "Pague 50% a menos", costCoins = 50),
-            RewardItem(id = "2", title = "Brinde da biblioteca", description = "Marcador exclusivo", costCoins = 30)
+            RewardItem(id = 345434, title = "Desconto em multa", description = "Pague 50% a menos", costCoins = 50),
+            RewardItem(id = 4545432, title = "Brinde da biblioteca", description = "Marcador exclusivo", costCoins = 30)
         )
         rewardDao.insertRewards(rewards) //
     }

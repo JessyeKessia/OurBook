@@ -7,13 +7,15 @@ import com.example.ourbook.data.repository.RepositorioSeed
 import com.example.ourbook.ui.screen.rewards.RewardsViewModel
 import com.example.ourbook.ui.screen.login.LoginViewModel
 import com.example.ourbook.ui.screen.home.HomeViewModel
+import com.example.ourbook.ui.screen.register.RegisterViewModel
 import com.example.ourbook.ui.screen.notifications.NotificationsViewModel
 import com.example.ourbook.ui.screen.loan.LoanRegisterViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import com.example.ourbook.ui.screen.bookdetail.BookDetailViewModel
-
+import com.example.ourbook.ui.screen.loan.MyLoansViewModel
+import com.example.ourbook.ui.screen.profile.ProfileViewModel
 
 
 val appModule = module {
@@ -32,6 +34,7 @@ val appModule = module {
     single { get<OurBookDatabase>().notificationDao() }
     single { get<OurBookDatabase>().rewardDao() }
     single { get<OurBookDatabase>().userDao() }
+    single { get<OurBookDatabase>().loanDao() }
 
     // 3. Repositório Local
     single {
@@ -39,7 +42,8 @@ val appModule = module {
             userDao = get(),
             bookDao = get(),
             notificationDao = get(),
-            rewardDao = get()
+            rewardDao = get(),
+            loanDao = get()
         )
     }
 
@@ -60,5 +64,8 @@ val appModule = module {
     viewModel { NotificationsViewModel(repository = get()) }
     viewModel { LoanRegisterViewModel(repository = get()) }
     viewModel { BookDetailViewModel(repository = get()) }
-    viewModel { LoanRegisterViewModel(repository = get()) }
+    viewModel { RegisterViewModel(repository = get()) }
+    viewModel { ProfileViewModel(repository = get()) }
+    viewModel { MyLoansViewModel(repository = get()) }
+
 }

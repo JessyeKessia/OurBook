@@ -10,7 +10,7 @@ import com.google.firebase.firestore.DocumentId
 data class NotificationItem(
 
     @PrimaryKey // Define o ID como chave primária para o banco local
-    val id: String,
+    val id: Long = 0L,
     val type: String,      // "prazo", "recompensa", "atraso"
     val title: String,
     val message: String,

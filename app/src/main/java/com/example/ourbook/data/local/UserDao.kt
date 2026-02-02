@@ -24,4 +24,7 @@ interface UserDao {
     // 2. Para o CADASTRO: Verifica se o e-mail já existe antes de criar conta
     @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
     suspend fun getUserByEmail(email: String): UserEntity?
+
+    @Query("SELECT * FROM users WHERE isLogged = 1 LIMIT 1")
+    suspend fun getLoggedUser(): UserEntity?
 }

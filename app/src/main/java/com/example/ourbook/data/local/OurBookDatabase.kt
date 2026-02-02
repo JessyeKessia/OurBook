@@ -11,7 +11,8 @@ import com.example.ourbook.data.model.*
         Book::class,
         NotificationItem::class,
         RewardItem::class,
-        UserEntity::class
+        UserEntity::class,
+        LoanEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -21,4 +22,5 @@ abstract class OurBookDatabase : RoomDatabase() {
     abstract fun notificationDao(): NotificationDao
     abstract fun rewardDao(): RewardDao
     abstract fun userDao(): UserDao
+    abstract fun loanDao(): LoanDao
 }

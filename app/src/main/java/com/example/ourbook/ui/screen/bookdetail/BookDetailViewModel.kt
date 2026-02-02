@@ -16,7 +16,7 @@ class BookDetailViewModel(
     private val _book = MutableStateFlow<Book?>(null)
     val book: StateFlow<Book?> = _book.asStateFlow()
 
-    fun loadBook(bookId: String) {
+    fun loadBook(bookId: Long) {
         viewModelScope.launch {
             _book.value = repository.getBookById(bookId) // Agora busca no banco local
         }

@@ -22,6 +22,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
+    onGoToRegister: () -> Unit,
     viewModel: LoginViewModel = koinViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -74,6 +75,11 @@ fun LoginScreen(
                 enabled = !state.isLoading
             ) {
                 Text(if (state.isLoading) "Entrando..." else "Entrar")
+            }
+
+            // 👇 BOTÃO DE CADASTRO
+            TextButton(onClick = onGoToRegister) {
+                Text( "Cadastre-se")
             }
 
             state.error?.let {

@@ -49,4 +49,10 @@ class HomeViewModel(
             _uiState.value = currentState.copy(filter = value)
         }
     }
+    fun logout() {
+        viewModelScope.launch {
+            repository.logout()  // limpa o StateFlow do usuário
+        }
+    }
+
 }
